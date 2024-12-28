@@ -1,4 +1,4 @@
-package share
+package shared
 
 import (
 	"github.com/KevinZonda/GoX/pkg/panicx"

@@ -1,4 +1,4 @@
-package share
+package shared
 
 func Init() {
 	initGin()
