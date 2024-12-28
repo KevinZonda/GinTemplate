@@ -3,7 +3,8 @@ package share
 import "encoding/json"
 
 type Config struct {
-	Addr string `json:"addr"`
+	Addr  string `json:"addr"`
+	Debug bool   `json:"debug"`
 }
 
 var cfg *Config
