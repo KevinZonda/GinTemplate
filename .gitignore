@@ -22,3 +22,6 @@
 # build
 build/
 out/
+
+# macOS
+.DS_Store
