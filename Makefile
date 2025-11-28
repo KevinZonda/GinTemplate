@@ -41,6 +41,9 @@ endif
 rename:
 	@go run cmd/utils/rename/main.go $(RENAME_ARGS)
 
+api:
+	@bash gen_api.sh
+
 .PHONY: docker docker-run build build-debug run controller
 
 serv: build
