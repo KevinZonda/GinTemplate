@@ -2,6 +2,7 @@ package shared
 
 import (
 	"github.com/KevinZonda/GinTemplate/lib/ginger/tracer"
+	"github.com/KevinZonda/GinTemplate/lib/moduleMgr"
 	"github.com/KevinZonda/GinTemplate/logger"
 	"github.com/KevinZonda/GoX/pkg/panicx"
 	"github.com/gin-contrib/cors"
@@ -16,6 +17,10 @@ func InitGin() {
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
+	_mgr.RegisterModule("gin",
+		moduleMgr.ModuleStatusInit,
+		moduleMgr.NewModuleParam().WithBool("debug", GetConfig().Debug),
+	)
 
 	_engine = gin.New()
 	_engine.Use(
@@ -24,6 +29,8 @@ func InitGin() {
 		cors.Default(),
 		tracer.MidCreateTraceId,
 	)
+
+	_mgr.UpdateModuleStatus("gin", moduleMgr.ModuleStatusLoaded)
 }
 
 func GetGin() *gin.Engine {

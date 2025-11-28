@@ -3,6 +3,7 @@ package shared
 import (
 	"encoding/json"
 
+	"github.com/KevinZonda/GinTemplate/lib/moduleMgr"
 	"github.com/KevinZonda/GoX/pkg/iox"
 	"github.com/KevinZonda/GoX/pkg/panicx"
 	"github.com/KevinZonda/GoX/pkg/ruby"
@@ -24,6 +25,10 @@ func LoadConfig(bs []byte) error {
 }
 
 func InitCfg(path string) {
+	_mgr.RegisterModule("cfg", moduleMgr.ModuleStatusInit, moduleMgr.NewModuleParam().With("path", path))
+
 	bs := ruby.RdrErr(iox.ReadAllByte(path))
 	panicx.NotNilErr(LoadConfig(bs))
+
+	_mgr.UpdateModuleStatus("cfg", moduleMgr.ModuleStatusLoaded)
 }
