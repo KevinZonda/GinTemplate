@@ -1,26 +1,36 @@
 package shared
 
 import (
+	"github.com/KevinZonda/GinTemplate/lib/ginger/tracer"
+	"github.com/KevinZonda/GinTemplate/logger"
 	"github.com/KevinZonda/GoX/pkg/panicx"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-var Engine *gin.Engine
+var _engine *gin.Engine
 
-func initGin() {
+func InitGin() {
 	if GetConfig().Debug {
 		gin.SetMode(gin.DebugMode)
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	Engine = gin.Default()
+	_engine = gin.New()
+	_engine.Use(
+		gin.Recovery(),
+		logger.GinHandler(),
+		cors.Default(),
+		tracer.MidCreateTraceId,
+	)
+}
 
-	Engine.Use(cors.Default()) //allow all origins
+func GetGin() *gin.Engine {
+	return _engine
 }
 
 func RunGin() {
-	err := Engine.Run(GetConfig().Addr)
+	err := _engine.Run(GetConfig().Addr)
 	panicx.NotNilErr(err)
 }
