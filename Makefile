@@ -24,10 +24,15 @@ build-debug:
 run:
 	./out/serv
 
-controller:
-	go run cmd/createController/main.go $1
+ifeq (controller,$(firstword $(MAKECMDGOALS)))
+  CONTROLLER_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(CONTROLLER_ARGS):;@:)
+endif
 
-.PHONY: docker docker-run build build-debug run
+controller:
+	@go run cmd/createController/main.go $(CONTROLLER_ARGS)
+
+.PHONY: docker docker-run build build-debug run controller
 
 i: init
 s: serv
