@@ -24,6 +24,9 @@ build-debug:
 run:
 	./out/serv
 
+controller:
+	go run cmd/createController/main.go $1
+
 .PHONY: docker docker-run build build-debug run
 
 i: init
