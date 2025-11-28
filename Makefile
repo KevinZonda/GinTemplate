@@ -31,7 +31,15 @@ ifeq (controller,$(firstword $(MAKECMDGOALS)))
 endif
 
 controller:
-	@go run cmd/createController/main.go $(CONTROLLER_ARGS)
+	@go run cmd/utils/createController/main.go $(CONTROLLER_ARGS)
+
+ifeq (rename,$(firstword $(MAKECMDGOALS)))
+  RENAME_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RENAME_ARGS):;@:)
+endif
+
+rename:
+	@go run cmd/utils/rename/main.go $(RENAME_ARGS)
 
 .PHONY: docker docker-run build build-debug run controller
 
