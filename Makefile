@@ -8,6 +8,7 @@
 
 init:
 	git submodule update --init --recursive
+	go mod tidy
 
 docker:
 	docker build -t "gin-template" .
@@ -34,6 +35,10 @@ controller:
 
 .PHONY: docker docker-run build build-debug run controller
 
+serv: build
+br: build run
+
+rs: run
 i: init
 s: serv
 c: client
