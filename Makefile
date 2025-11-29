@@ -44,7 +44,10 @@ rename:
 api:
 	@bash gen_api.sh
 
-.PHONY: docker docker-run build build-debug run controller
+cfg:
+	@go run cmd/utils/createConfig/main.go
+
+.PHONY: docker docker-run build build-debug run controller cfg
 
 serv: build
 br: build run

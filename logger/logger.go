@@ -13,6 +13,10 @@ var logger = logrus.New()
 func InitLogger() {
 	logger.SetOutput(os.Stdout)
 	logger.SetLevel(logrus.InfoLevel)
+	logger.SetFormatter(&logrus.TextFormatter{
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05",
+	})
 }
 
 func StdLogger() *logrus.Logger {
@@ -24,4 +28,32 @@ func WithTraceId(c *gin.Context) *logrus.Entry {
 		return logger.WithField("trace_id", "unk")
 	}
 	return logger.WithField("trace_id", tracer.GetTraceId(c))
+}
+
+func Println(v ...interface{}) {
+	logger.Println(v...)
+}
+
+func Print(v ...interface{}) {
+	logger.Print(v...)
+}
+
+func Info(v ...interface{}) {
+	logger.Info(v...)
+}
+
+func Warn(v ...interface{}) {
+	logger.Warn(v...)
+}
+
+func Error(v ...interface{}) {
+	logger.Error(v...)
+}
+
+func Fatal(v ...interface{}) {
+	logger.Fatal(v...)
+}
+
+func Panic(v ...interface{}) {
+	logger.Panic(v...)
 }

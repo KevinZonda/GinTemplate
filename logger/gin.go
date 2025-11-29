@@ -21,8 +21,7 @@ func GinHandler() gin.HandlerFunc {
 		if reqMethod == "HEAD" {
 			return
 		}
-		logger.Infof("%s | %3d | %13v | %15s | %s | %s | %s |",
-			startTime.Format("2006-01-02 15:04:05"),
+		logger.Infof("[GIN] | %3d | %13v | %15s | %s | %s | %s |",
 			statusCode,
 			latencyTime,
 			clientIP,
