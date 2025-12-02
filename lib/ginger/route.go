@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func registerHandler(r gin.IRouter, path string, fn ...gin.HandlerFunc) {
+func registerHandler(r gin.IRoutes, path string, fn ...gin.HandlerFunc) {
 	terms := strings.SplitN(path, " ", 2)
 	if len(terms) != 2 {
 		panic("invalid path: " + path)
@@ -34,7 +34,7 @@ func registerHandler(r gin.IRouter, path string, fn ...gin.HandlerFunc) {
 	}
 }
 
-func RegisterHandlers(r gin.IRouter, pathMap map[string][]gin.HandlerFunc) {
+func RegisterHandlers(r gin.IRoutes, pathMap map[string][]gin.HandlerFunc) {
 	for path, fn := range pathMap {
 		registerHandler(r, path, fn...)
 	}
