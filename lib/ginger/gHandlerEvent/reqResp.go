@@ -1,8 +1,9 @@
-package gHandler
+package gHandlerEvent
 
 import (
 	"net/http"
 
+	"github.com/KevinZonda/GinTemplate/lib/ginger/gHandler"
 	"github.com/KevinZonda/GinTemplate/logger"
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +12,7 @@ func ReqResp[TReq any, TResp any](fn func(c *gin.Context, req TReq, resp *Resp[T
 	return func(c *gin.Context) {
 		var req TReq
 		if err := c.ShouldBindJSON(&req); err != nil {
-			AbortIfError(c, err, http.StatusBadRequest, REQ_BIND_FAILED)
+			gHandler.AbortIfError(c, err, http.StatusBadRequest, gHandler.REQ_BIND_FAILED)
 			return
 		}
 		resp := NewResp[TResp]()
@@ -33,8 +34,8 @@ func final[T any](c *gin.Context, resp *Resp[T]) {
 		return
 	}
 	if resp.Error != "" {
-		logger.WithTraceId(c).Error(resp.E.Error())
-		Abort(c, http.StatusInternalServerError, resp.Error)
+		logger.G(c).Error(resp.E.Error())
+		gHandler.Abort(c, http.StatusInternalServerError, resp.Error)
 		return
 	}
 	c.JSON(http.StatusOK, resp.Data)

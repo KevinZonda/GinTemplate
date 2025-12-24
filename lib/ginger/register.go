@@ -6,9 +6,13 @@ type IController interface {
 	Init(r gin.IRouter)
 }
 
-func Register(r gin.IRouter, cs ...GinRegisterFx) {
+func Register(r gin.IRouter, isolation bool, cs ...GinRegisterFx) {
 	for _, c := range cs {
-		c(r)
+		g := r
+		if isolation {
+			g = r.Group("/")
+		}
+		c(g)
 	}
 }
 

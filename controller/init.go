@@ -7,5 +7,7 @@ import (
 )
 
 func Init(r gin.IRouter) {
-	ginger.Register(r, ping.Register)
+	ginger.Register(r, true,
+		ping.Register,
+	)
 }

@@ -30,6 +30,15 @@ func WithTraceId(c *gin.Context) *logrus.Entry {
 	return logger.WithField("trace_id", tracer.GetTraceId(c))
 }
 
+func G(c *gin.Context) *logrus.Entry {
+	if c == nil {
+		return logger.WithField("trace_id", "unk")
+	}
+	e := logger.WithField("trace_id", tracer.GetTraceId(c))
+	e = e.WithField("uri", c.Request.RequestURI)
+	return e
+}
+
 func Println(v ...interface{}) {
 	logger.Println(v...)
 }
@@ -56,4 +65,16 @@ func Fatal(v ...interface{}) {
 
 func Panic(v ...interface{}) {
 	logger.Panic(v...)
+}
+
+func RecordIfError(err error) {
+	if err != nil {
+		logger.Error(err)
+	}
+}
+
+func RecordIfErrorWithTrace(c *gin.Context, err error) {
+	if err != nil {
+		G(c).Error(err)
+	}
 }

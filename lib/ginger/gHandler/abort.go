@@ -17,7 +17,7 @@ func AbortIfError(c *gin.Context, err error, code int, msg string) bool {
 
 func Abort(c *gin.Context, code int, msg string) {
 	traceId := tracer.GetTraceId(c)
-	logger.WithTraceId(c).WithFields(logrus.Fields{
+	logger.G(c).WithFields(logrus.Fields{
 		"code": code,
 		"err":  msg,
 	}).Error("Gin Error Detected")

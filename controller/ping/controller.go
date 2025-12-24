@@ -9,5 +9,5 @@ import (
 
 func Register(r gin.IRouter) {
 	svc.InitSvc()
-	r.GET("/ping", gHandler.SimpleRespOnly[string](handler.GetPing))
+	r.GET("/ping", gHandler.Resp[string](handler.GetPing))
 }
